@@ -19,17 +19,29 @@ public class Repository {
     }
 
     public void removeById(int removeId) {
-        Product[] tmp = new Product[products.length - 1];
+        Product foundProduct = findById(removeId);
+        if (foundProduct == null) {
+            throw new NotFoundException(removeId);
+        }
 
+        Product[] tmp = new Product[products.length - 1];
         int index = 0;
         for (Product product : products) {
             if (product.getId() != removeId) {
                 tmp[index] = product;
                 index++;
-
             }
         }
         products = tmp;
+    }
+
+    private Product findById(int id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
     }
 
 }
